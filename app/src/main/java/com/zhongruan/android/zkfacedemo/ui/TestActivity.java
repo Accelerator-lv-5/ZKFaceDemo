@@ -190,7 +190,6 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
                 break;
-
             case R.id.linearlayout_sjgl:
                 startActivity(new Intent(this, DataActivity.class));
                 break;

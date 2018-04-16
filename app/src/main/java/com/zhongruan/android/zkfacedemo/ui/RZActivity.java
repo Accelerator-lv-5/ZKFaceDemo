@@ -119,13 +119,11 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
         _surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         ccno = DbServices.getInstance(getBaseContext()).selectCC().get(0).getCc_no();
         ccmc = DbServices.getInstance(getBaseContext()).selectCC().get(0).getCc_name();
-
         if (DbServices.getInstance(getBaseContext()).selectKC().size() > 1) {
             kcmc = "全部考场";
         } else {
             kcmc = DbServices.getInstance(getBaseContext()).selectKC().get(0).getKc_name();
         }
-
         kmmc = DbServices.getInstance(getBaseContext()).selectCC().get(0).getKm_name();
         kmno = DbServices.getInstance(getBaseContext()).selectCC().get(0).getKm_no();
         kdno = DbServices.getInstance(getBaseContext()).loadAllkd().get(0).getKd_no();
@@ -223,9 +221,8 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                 if (bkKs != null) {
                     register_bitmap(idCardData.getMap());
                     bit = FileUtils.getBitmapFromPath(FileUtils.getAppSavePath() + "/" + bkKs.getKs_xp());
-                    KsPZ();
-                } else {
 
+                } else {
                     ShowToast("未查找到" + idCardData.getSfzh() + "，请重试");
                     handler.postDelayed(runnable02, 100);// 间隔1秒
                 }
@@ -243,33 +240,35 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                 int ret = ZKLiveFaceService.detectFacesFromBitmap(context, data, detectedFaces);
                 if (ret == 0 && detectedFaces[0] > 0) {
                     LogUtil.i("探测人脸成功");
-                    getFaceContext();
+                    if (getFaceContext() == 1) {
+                        KsPZ();
+                    } else {
+                        ShowToast("照片注册失败请重刷！！");
+                        handler.postDelayed(runnable02, 100);
+                    }
                 } else {
                     LogUtil.i("探测人脸失败");
-                    if (photo == 0) {
-                        handler.postDelayed(runnable02, 100);// 间隔1秒
-                    }
+                    ShowToast("照片注册失败请重刷！！");
+                    handler.postDelayed(runnable02, 100);
                 }
             }
         }).start();
     }
 
-    private void getFaceContext() {
+    private int getFaceContext() {
         long[] faceContext = new long[1];
         int ret = 0;
         ret = ZKLiveFaceService.getFaceContext(context, 0, faceContext);
         if (ret == 0) {
             LogUtil.i("人脸", "获取人脸实例成功");
-            extractTemplate(faceContext[0]);
+            return extractTemplate(faceContext[0]);
         } else {
             LogUtil.i("人脸", "获取人脸实例失败");
-            if (photo == 0) {
-                handler.postDelayed(runnable02, 100);// 间隔1秒
-            }
+            return 0;
         }
     }
 
-    private void extractTemplate(long faceContext) {
+    private int extractTemplate(long faceContext) {
         int ret = 0;
         byte[] template = new byte[2048];
         int[] size = new int[1];
@@ -287,17 +286,14 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                 if (photo == 1 && bit != null && idCardData != null) {
                     register_bitmap(bit);
                 }
+                return 1;
             } else {
                 LogUtil.i("人脸", "登记模板失败");
-                if (photo == 0) {
-                    handler.postDelayed(runnable02, 100);// 间隔1秒
-                }
+                return 0;
             }
         } else {
             LogUtil.i("人脸", "提取模板失败");
-            if (photo == 0) {
-                handler.postDelayed(runnable02, 100);// 间隔1秒
-            }
+            return 0;
         }
     }
 
@@ -346,7 +342,6 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
         mLlChangeCc.setEnabled(true);
         btn_photo.setEnabled(false);
         include_idcard.setVisibility(View.VISIBLE);
-
         if (DbServices.getInstance(getBaseContext()).selectKC().size() > 1) {
             bk_ks = DbServices.getInstance(getBaseContext()).queryBKKSLists(ccmc);
             isRzSize = DbServices.getInstance(getBaseContext()).queryBkKsIsTGs(ccmc, "1");
