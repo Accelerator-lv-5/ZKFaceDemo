@@ -57,7 +57,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:paddingLeft="10.0dip"
-            android:text="河南省2018年普通高校招生艺术类考试"
+            android:text="河南省2018年身份认证考试"
             android:textColor="@color/version_black"
             android:textSize="@dimen/twentyFour_sp" />
     </LinearLayout>

@@ -221,7 +221,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                 if (bkKs != null) {
                     register_bitmap(idCardData.getMap());
                     bit = FileUtils.getBitmapFromPath(FileUtils.getAppSavePath() + "/" + bkKs.getKs_xp());
-
+                    KsPZ();
                 } else {
                     ShowToast("未查找到" + idCardData.getSfzh() + "，请重试");
                     handler.postDelayed(runnable02, 100);// 间隔1秒
@@ -240,35 +240,27 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                 int ret = ZKLiveFaceService.detectFacesFromBitmap(context, data, detectedFaces);
                 if (ret == 0 && detectedFaces[0] > 0) {
                     LogUtil.i("探测人脸成功");
-                    if (getFaceContext() == 1) {
-                        KsPZ();
-                    } else {
-                        ShowToast("照片注册失败请重刷！！");
-                        handler.postDelayed(runnable02, 100);
-                    }
+                    getFaceContext();
                 } else {
                     LogUtil.i("探测人脸失败");
-                    ShowToast("照片注册失败请重刷！！");
-                    handler.postDelayed(runnable02, 100);
                 }
             }
         }).start();
     }
 
-    private int getFaceContext() {
+    private void getFaceContext() {
         long[] faceContext = new long[1];
         int ret = 0;
         ret = ZKLiveFaceService.getFaceContext(context, 0, faceContext);
         if (ret == 0) {
             LogUtil.i("人脸", "获取人脸实例成功");
-            return extractTemplate(faceContext[0]);
+            extractTemplate(faceContext[0]);
         } else {
             LogUtil.i("人脸", "获取人脸实例失败");
-            return 0;
         }
     }
 
-    private int extractTemplate(long faceContext) {
+    private void extractTemplate(long faceContext) {
         int ret = 0;
         byte[] template = new byte[2048];
         int[] size = new int[1];
@@ -286,14 +278,11 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                 if (photo == 1 && bit != null && idCardData != null) {
                     register_bitmap(bit);
                 }
-                return 1;
             } else {
                 LogUtil.i("人脸", "登记模板失败");
-                return 0;
             }
         } else {
             LogUtil.i("人脸", "提取模板失败");
-            return 0;
         }
     }
 
