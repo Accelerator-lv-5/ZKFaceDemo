@@ -173,6 +173,8 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                             dialog.dismiss();
                             IDCard idCard = new IDCard();
                             if (idCard.validate_effective(password) == password) {
+
+
                                 if (DbServices.getInstance(getBaseContext()).selectKC().size() > 1) {
                                     bkKs = DbServices.getInstance(getBaseContext()).selectBKKSs(ccno, password);
                                 } else {
@@ -195,7 +197,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                             handler.postDelayed(runnable02, 100);
                         }
                     }
-                }).setTitle("请输入身份证号").setInputType(InputType.TYPE_CLASS_NUMBER).show();
+                }).setTitle("请输入身份证号").setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS).show();
                 break;
         }
     }
