@@ -150,6 +150,8 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
             case R.id.llBack:
                 if (isRzSucceed) {
                     isZwYz();
+                    KsList();
+                    handler.postDelayed(runnable02, 100);
                 } else {
                     finish();
                 }
@@ -317,6 +319,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
         CS = 0;
         photo = 0;
         is = false;
+        contrastOption = false;
         isRzSucceed = false;
         mTvTip.setText("请刷身份证");
         include_idcard.setVisibility(View.VISIBLE);
@@ -508,7 +511,11 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                     int ret = ZKLiveFaceService.detectFacesFromNV21(context, data, previewSize.width, previewSize.height, detectedFaces);
                     if (ret == 0 && detectedFaces[0] > 0) {
                         LogUtil.i("人脸", "探测人脸成功");
-                        _getFaceContext();
+                        if (!isRzSucceed) {
+                            return;
+                        } else {
+                            _getFaceContext();
+                        }
                     } else {
                         LogUtil.i("人脸", "探测人脸失败");
                         contrastOption = true;
@@ -524,7 +531,11 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
         ret = ZKLiveFaceService.getFaceContext(context, 0, faceContext);
         if (ret == 0) {
             LogUtil.i("人脸", "获取人脸实例成功");
-            _extractTemplate(faceContext[0]);
+            if (!isRzSucceed) {
+                return;
+            } else {
+                _extractTemplate(faceContext[0]);
+            }
         } else {
             LogUtil.i("人脸", "获取人脸实例失败");
             contrastOption = true;
