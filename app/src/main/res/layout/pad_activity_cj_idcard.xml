@@ -23,7 +23,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="310.0dip"
+            android:layout_width="wrap_content"
             android:layout_height="31.0dip"
             android:layout_marginTop="14.0dip"
             android:text="无身份证，点击输入身份证号"
@@ -31,7 +31,7 @@
             android:textSize="25.0dip" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="1.0px"
             android:background="#ff666666"
             android:minWidth="310.0dip" />
