@@ -438,19 +438,19 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
                             if (confirm) {
-                                ShowHintDialog(RZActivity.this, bkKs.getKs_xm() + " 验证通过", "提示", R.drawable.img_base_icon_correct, 800, false);
+                                ShowHintDialog(RZActivity.this, bkKs.getKs_xm() + " 验证完成", "提示", R.drawable.img_base_icon_correct, 800, false);
                                 timeZP = DateUtil.getNowTime();
                                 ABLSynCallback.call(new ABLSynCallback.BackgroundCall() {
                                     @Override
                                     public Object callback() {
                                         if (DbServices.getInstance(getBaseContext()).selectKC().size() > 1) {
-                                            if (DbServices.getInstance(getBaseContext()).selectBKKSs(ccno, bkKs.getKs_zjno()).getIsRZ().equals("1") || score[0] > 72) {
+                                            if (DbServices.getInstance(getBaseContext()).selectBKKSs(ccno, bkKs.getKs_zjno()).getIsRZ().equals("1") || score[0] > 60) {
                                                 return Boolean.valueOf(true);
                                             } else {
                                                 return Boolean.valueOf(false);
                                             }
                                         } else {
-                                            if (DbServices.getInstance(getBaseContext()).selectBKKS(kcmc, ccno, bkKs.getKs_zjno()).getIsRZ().equals("1") || score[0] > 72) {
+                                            if (DbServices.getInstance(getBaseContext()).selectBKKS(kcmc, ccno, bkKs.getKs_zjno()).getIsRZ().equals("1") || score[0] > 60) {
                                                 return Boolean.valueOf(true);
                                             } else {
                                                 return Boolean.valueOf(false);
@@ -569,8 +569,8 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
             byte[] faceIDS = new byte[256];
             int[] maxRetCount = new int[1];
             maxRetCount[0] = 1;
-            ret = ZKLiveFaceService.dbIdentify(context, template, faceIDS, score, maxRetCount, 72, 100);
-            if (ret == 0 && score[0] > 72) {
+            ret = ZKLiveFaceService.dbIdentify(context, template, faceIDS, score, maxRetCount, 60, 100);
+            if (ret == 0 && score[0] > 60) {
                 LogUtil.i("人脸", "分数:" + score[0] + "比对成功");
                 SendHandle(1, null);
             } else {
