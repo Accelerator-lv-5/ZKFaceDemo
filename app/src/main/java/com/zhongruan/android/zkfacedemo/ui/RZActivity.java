@@ -172,7 +172,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                         if (confirm) {
                             dialog.dismiss();
                             IDCard idCard = new IDCard();
-                            if (idCard.validate_effective(password) == password) {
+                            if (idCard.validate_effective(password.toLowerCase()).equals(password.toLowerCase())) {
                                 if (DbServices.getInstance(getBaseContext()).selectKC().size() > 1) {
                                     bkKs = DbServices.getInstance(getBaseContext()).selectBKKSs(ccno, password);
                                 } else {
