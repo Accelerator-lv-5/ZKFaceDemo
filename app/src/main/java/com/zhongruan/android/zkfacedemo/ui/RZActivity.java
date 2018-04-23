@@ -411,6 +411,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                 btn_photo.setEnabled(true);
                 contrastOption = false;
                 ShowToast("人脸比对不通过，请手动拍照");
+                DbServices.getInstance(getBaseContext()).saveRzjg("21", bkKs.getKs_ksno(), kmno, kdno, bkKs.getKs_kcno(), bkKs.getKs_zwh(), SN, DateUtil.getNowTime(), "0");
             }
             Bitmap b = null;
             if (fileOpiton) {
@@ -443,25 +444,16 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                                 ABLSynCallback.call(new ABLSynCallback.BackgroundCall() {
                                     @Override
                                     public Object callback() {
-                                        if (DbServices.getInstance(getBaseContext()).selectKC().size() > 1) {
-                                            if (DbServices.getInstance(getBaseContext()).selectBKKSs(ccno, bkKs.getKs_zjno()).getIsRZ().equals("1") || score[0] > 60) {
-                                                return Boolean.valueOf(true);
-                                            } else {
-                                                return Boolean.valueOf(false);
-                                            }
+                                        if (score[0] > 60) {
+                                            return Boolean.valueOf(true);
                                         } else {
-                                            if (DbServices.getInstance(getBaseContext()).selectBKKS(kcmc, ccno, bkKs.getKs_zjno()).getIsRZ().equals("1") || score[0] > 60) {
-                                                return Boolean.valueOf(true);
-                                            } else {
-                                                return Boolean.valueOf(false);
-                                            }
+                                            return Boolean.valueOf(false);
                                         }
                                     }
                                 }, new ABLSynCallback.ForegroundCall() {
                                     @Override
                                     public void callback(Object obj) {
                                         if (((Boolean) obj).booleanValue()) {
-                                            DbServices.getInstance(getBaseContext()).saveRzjg("21", bkKs.getKs_ksno(), kmno, kdno, bkKs.getKs_kcno(), bkKs.getKs_zwh(), SN, timeZP, "0");
                                             if (idCardData != null) {
                                                 FileUtils.saveBitmap(idCardData.getMap(), "sfrz_rzjl/kstz_a_zw/", bkKs.getKs_zjno() + "_" + DateUtil.getNowTime_Millisecond4());
                                             }
@@ -469,12 +461,10 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                                             FileUtils.saveBitmap(bitmap, "sfrz_rzjl/kstz_a_pz/", bkKs.getKs_ksno() + "_" + timezp);
                                             DbServices.getInstance(getBaseContext()).saveRzjl("8007", bkKs.getKs_ksno(), kmno, kdno, bkKs.getKs_kcno(), bkKs.getKs_zwh(), SN, "1", DateUtil.getNowTime(), "", "sfrz_rzjl/kstz_a_pz/" + bkKs.getKs_ksno() + "_" + timezp + ".jpg", DbServices.getInstance(getBaseContext()).selectRzjg(bkKs.getKs_ksno()).toString(), "0");
                                         } else {
-                                            DbServices.getInstance(getBaseContext()).saveRzjg("22", bkKs.getKs_ksno(), kmno, kdno, bkKs.getKs_kcno(), bkKs.getKs_zwh(), SN, timeZP, "0");
                                             String timezp = DateUtil.getNowTime_Millisecond4();
                                             FileUtils.saveBitmap(bitmap, "sfrz_rzjl/kstz_a_pz/", bkKs.getKs_ksno() + "_" + timezp);
                                             DbServices.getInstance(getBaseContext()).saveRzjl("8006", bkKs.getKs_ksno(), kmno, kdno, bkKs.getKs_kcno(), bkKs.getKs_zwh(), SN, "0", DateUtil.getNowTime(), "", "sfrz_rzjl/kstz_a_pz/" + bkKs.getKs_ksno() + "_" + timezp + ".jpg", DbServices.getInstance(getBaseContext()).selectRzjg(bkKs.getKs_ksno()).toString(), "0");
                                         }
-
                                         if (DbServices.getInstance(getBaseContext()).selectKC().size() > 1) {
                                             DbServices.getInstance(getBaseContext()).saveBkKss(ccno, bkKs.getKs_zjno());
                                         } else {
@@ -603,6 +593,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                     fileOpiton = true;
                     soundPool.play(musicId.get(4), 1, 1, 0, 0, 1);
                     mKsResult.setText("人脸比对通过");
+                    DbServices.getInstance(getBaseContext()).saveRzjg("22", bkKs.getKs_ksno(), kmno, kdno, bkKs.getKs_kcno(), bkKs.getKs_zwh(), SN, DateUtil.getNowTime(), "0");
                     mKsResult.setTextColor(getResources().getColor(R.color.green));
                     break;
                 case 2:
