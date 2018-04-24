@@ -8,16 +8,12 @@ import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.util.AttributeSet;
 
-import com.zhongruan.android.zkfacedemo.camera.util.Util;
-
-
 public class FaceView extends android.support.v7.widget.AppCompatImageView {
     private Paint mLinePaint;
     private int[] points = null;
     private Path mGraphic;
     private final Object mLock = new Object();
     private int x, y;
-
 
     public FaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -44,7 +40,6 @@ public class FaceView extends android.support.v7.widget.AppCompatImageView {
         postInvalidate();
     }
 
-
     @Override
     protected void onDraw(Canvas canvas) {
 
@@ -58,16 +53,12 @@ public class FaceView extends android.support.v7.widget.AppCompatImageView {
             mGraphic.reset();
             float xRatio = (float) getWidth() / x;
             float yRatio = (float) getHeight() / y;
-
             mGraphic.moveTo(points[0] * xRatio, points[1] * yRatio);
             mGraphic.lineTo(points[2] * xRatio, points[3] * yRatio);
             mGraphic.lineTo(points[4] * xRatio, points[5] * yRatio);
             mGraphic.lineTo(points[6] * xRatio, points[7] * yRatio);
             mGraphic.lineTo(points[0] * xRatio, points[1] * yRatio);
-
-
             canvas.scale(-1, 1, getWidth() / 2, getHeight() / 2);
-
             canvas.save();
             mGraphic.close();//封闭
             canvas.drawPath(mGraphic, mLinePaint);

@@ -30,7 +30,6 @@ public class DbServices {
     private static DbServices instance;
     private static Context appContext;
     private DaoSession mDaoSession;
-
     private Bk_ks_cjxxDao bk_ks_cjxxDao;
     private Bk_ks_tempDao bk_ks_tempDao;
     private Ks_ccDao ks_ccDao;
@@ -46,7 +45,6 @@ public class DbServices {
     private Bk_ksDao bk_ksDao;
     private Sb_ipDao sbIpDao;
     private Sn_numberDao sn_numberDao;
-
 
     private DbServices() {
     }
@@ -66,10 +64,8 @@ public class DbServices {
             instance.mDaoSession = MyApplication.getDaoInstant(context);
             instance.bk_ks_cjxxDao = instance.mDaoSession.getBk_ks_cjxxDao();
             instance.bk_ks_tempDao = instance.mDaoSession.getBk_ks_tempDao();
-
             instance.ks_ccDao = instance.mDaoSession.getKs_ccDao();
             instance.ks_kcDao = instance.mDaoSession.getKs_kcDao();
-
             instance.ks_kdDao = instance.mDaoSession.getKs_kdDao();
             instance.ks_kmDao = instance.mDaoSession.getKs_kmDao();
             instance.bk_ksxpDao = instance.mDaoSession.getBk_ksxpDao();
@@ -81,11 +77,9 @@ public class DbServices {
             instance.bk_ksDao = instance.mDaoSession.getBk_ksDao();
             instance.sbIpDao = instance.mDaoSession.getSb_ipDao();
             instance.sn_numberDao = instance.mDaoSession.getSn_numberDao();
-
         }
         return instance;
     }
-
 
     /**
      * 取出所有数据
@@ -115,7 +109,6 @@ public class DbServices {
     public List<Ks_km> loadAllkm() {
         return ks_kmDao.loadAll();
     }
-
 
     public List<Sfrz_rzfs> loadAllrzfs() {
         return rzfsDao.loadAll();
@@ -152,13 +145,11 @@ public class DbServices {
      * @return 数据列表
      */
 
-
     public List<Bk_ks_cjxx> querySfzh(String where) {
         return bk_ks_cjxxDao.queryBuilder().where(Bk_ks_cjxxDao.Properties.Sfz_sfzh.eq(where))
                 .orderDesc(Bk_ks_cjxxDao.Properties.Id)
                 .build().list();
     }
-
 
     /**
      * 根据查询条件,返回数据列表
@@ -166,7 +157,6 @@ public class DbServices {
      * @param isSbzt 条件
      * @return 数据列表
      */
-
 
     public List<Bk_ks_cjxx> querySbzt(int isSbzt) {
         return bk_ks_cjxxDao.queryBuilder().where(Bk_ks_cjxxDao.Properties.IsSbzt.eq(isSbzt))
@@ -202,7 +192,6 @@ public class DbServices {
         return bk_ksDao.queryBuilder().whereOr(Bk_ksDao.Properties.Ks_ccmc.notEq(ks_ccmc), Bk_ksDao.Properties.Ks_kcmc.notEq(ks_kcmc)).orderAsc(Bk_ksDao.Properties.Ks_ccno).list();
     }
 
-
     public String selectIP() {
         return sbIpDao.queryBuilder().where(Sb_ipDao.Properties.Ipid.eq("1")).list().get(0).getSb_ip();
     }
@@ -211,16 +200,13 @@ public class DbServices {
         return ks_ccDao.queryBuilder().where(Ks_ccDao.Properties.Cc_extract.eq("1")).list();
     }
 
-
     public Bk_ks selectKszh(String ccno, String zh) {
         return bk_ksDao.queryBuilder().where(Bk_ksDao.Properties.Ks_ccno.eq(ccno)).where(Bk_ksDao.Properties.Ks_zwh.eq(zh)).orderAsc(Bk_ksDao.Properties.Ks_zwh).list().get(0);
     }
 
-
     public String selectRzjg(String ksno) {
         return rzjgDao.queryBuilder().where(Sfrz_rzjgDao.Properties.Rzjg_ksno.eq(ksno)).list().get(0).getRzjgid();
     }
-
 
     public int queryBkKsIsTG(String ks_kcmc, String ks_ccmc, String isRZ) {
         return bk_ksDao.queryBuilder().where(Bk_ksDao.Properties.Ks_kcmc.eq(ks_kcmc)).where(Bk_ksDao.Properties.Ks_ccmc.eq(ks_ccmc)).where(Bk_ksDao.Properties.IsRZ.eq(isRZ)).distinct().list().size();
@@ -230,7 +216,6 @@ public class DbServices {
         return bk_ksDao.queryBuilder().where(Bk_ksDao.Properties.Ks_ccmc.eq(ks_ccmc)).where(Bk_ksDao.Properties.IsRZ.eq(isRZ)).distinct().list().size();
     }
 
-
     public List<Sfrz_rzjg> selectRZJGSB(String ccmc) {
         return rzjgDao.queryBuilder().where(Sfrz_rzjgDao.Properties.Rzjg_kmno.eq(ks_ccDao.queryBuilder().where(Ks_ccDao.Properties.Cc_name.eq(ccmc)).list().get(0).getKm_no()), Sfrz_rzjgDao.Properties.Rzjg_sb.notEq("1")).list();
     }
@@ -238,7 +223,6 @@ public class DbServices {
     public List<Sfrz_rzjl> selectRZJLSB() {
         return rzjlDao.queryBuilder().where(Sfrz_rzjlDao.Properties.Rzjl_sb.notEq("1")).list();
     }
-
 
     public Bk_ks selectBKKS(String kcmc, String ccno, String zjno) {
         return bk_ksDao.queryBuilder().where(Bk_ksDao.Properties.Ks_kcmc.eq(kcmc)).where(Bk_ksDao.Properties.Ks_ccno.eq(ccno)).whereOr(Bk_ksDao.Properties.Ks_zjno.eq(zjno.toLowerCase()), Bk_ksDao.Properties.Ks_zjno.eq(zjno.toUpperCase())).build().unique();
@@ -285,9 +269,7 @@ public class DbServices {
         return bk_ks_cjxxDao.insert(bk_ks_cjxx);
     }
 
-
     public long saveRzjl(String rzjl_rzfsno, String rzjl_ksno, String rzjl_kmbh, String rzjl_kdbh, String rzjl_kcbh, String rzjl_zwh, String rzjl_device, String rzjl_verify_result, String rzjl_time, String rzjl_Features, String rzjl_pith, String rzjl_rzjgid, String rzjl_sb) {
-
         Sfrz_rzjl sfrzRzjl = new Sfrz_rzjl();
         sfrzRzjl.setRzjl_rzfsno(rzjl_rzfsno);
         sfrzRzjl.setRzjl_ksno(rzjl_ksno);
@@ -407,7 +389,6 @@ public class DbServices {
         }
     }
 
-
     /**
      * 删除所有数据
      */
@@ -447,7 +428,6 @@ public class DbServices {
         bk_ksDao.deleteAll();
     }
 
-
     public void deleteAllrzjl() {
         rzjlDao.deleteAll();
     }
@@ -465,5 +445,4 @@ public class DbServices {
         bk_ks_cjxxDao.deleteByKey(id);
         Log.i(TAG, "delete");
     }
-
 }
