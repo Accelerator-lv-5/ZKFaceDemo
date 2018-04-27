@@ -71,7 +71,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
     private List<Bk_ks> bk_ks;
     private Message message = new Message();
     private int[] score;
-    private String SN = DbServices.getInstance(getBaseContext()).loadAllSN().get(0).getSn();
+    private String SN = DbServices.getInstance(getBaseContext()).loadAllSbSetting().get(0).getSb_sn();
     private Camera.Size previewSize;
     private int x, y, isRzSize;
 
@@ -410,7 +410,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                 btn_photo.setEnabled(true);
                 contrastOption = false;
                 ShowToast("人脸比对不通过，请手动拍照");
-                DbServices.getInstance(getBaseContext()).saveRzjg("21", bkKs.getKs_ksno(), kmno, kdno, bkKs.getKs_kcno(), bkKs.getKs_zwh(), SN, DateUtil.getNowTime(), "0");
+                DbServices.getInstance(getBaseContext()).saveRzjg("22", bkKs.getKs_ksno(), kmno, kdno, bkKs.getKs_kcno(), bkKs.getKs_zwh(), SN, DateUtil.getNowTime(), "0");
             }
             Bitmap b = null;
             if (fileOpiton) {
@@ -592,7 +592,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                     fileOpiton = true;
                     soundPool.play(musicId.get(4), 1, 1, 0, 0, 1);
                     mKsResult.setText("人脸比对通过");
-                    DbServices.getInstance(getBaseContext()).saveRzjg("22", bkKs.getKs_ksno(), kmno, kdno, bkKs.getKs_kcno(), bkKs.getKs_zwh(), SN, DateUtil.getNowTime(), "0");
+                    DbServices.getInstance(getBaseContext()).saveRzjg("21", bkKs.getKs_ksno(), kmno, kdno, bkKs.getKs_kcno(), bkKs.getKs_zwh(), SN, DateUtil.getNowTime(), "0");
                     mKsResult.setTextColor(getResources().getColor(R.color.green));
                     break;
                 case 2:

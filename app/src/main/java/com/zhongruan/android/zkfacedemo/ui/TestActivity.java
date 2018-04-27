@@ -47,7 +47,7 @@ import rx.android.BuildConfig;
 
 public class TestActivity extends BaseActivity implements View.OnClickListener {
 
-    private LinearLayout llNowtime, llLocalip, llNetip, linearlayoutSfrz, linearlayoutSjgl, ll_test_xqkc;
+    private LinearLayout llNowtime, llLocalip, llNetip, linearlayoutSfrz, linearlayoutSjgl, ll_test_xqkc, linearlayoutKwdj, ll_test_jcsz;
     private TextView nowtimeTv, nowdayTv, localipTv, tvConnectState, netipTv, upload_app_tv, version_app_tv;
     private ImageView imgConnectState;
     private Handler handler = new Handler();
@@ -72,6 +72,8 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void initViews() {
+        linearlayoutKwdj = findViewById(R.id.linearlayout_kwdj);
+        ll_test_jcsz = findViewById(R.id.ll_test_jcsz);
         llNowtime = findViewById(R.id.ll_nowtime);
         nowtimeTv = findViewById(R.id.nowtime_tv);
         nowdayTv = findViewById(R.id.nowday_tv);
@@ -119,11 +121,13 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
         linearlayoutSjgl.setOnClickListener(this);
         ll_test_xqkc.setOnClickListener(this);
         version_app_tv.setOnClickListener(this);
+        linearlayoutKwdj.setOnClickListener(this);
+        ll_test_jcsz.setOnClickListener(this);
     }
 
     @Override
     public void initData() {
-        netipTv.setText(DbServices.getInstance(getBaseContext()).selectIP());
+        netipTv.setText(DbServices.getInstance(getBaseContext()).loadAllSbSetting().get(0).getSb_ip());
         startCheckMeesageFromKD();
         new Thread(runnable01).start();
         handler.postDelayed(runnable02, 500);
@@ -190,6 +194,29 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
                     }
                 }
                 break;
+            case R.id.linearlayout_kwdj:
+                kc = DbServices.getInstance(getBaseContext()).selectKC();
+                cc = DbServices.getInstance(getBaseContext()).selectCC();
+                if (kc.size() == 0) {
+                    new HintDialog(this, R.style.dialog, "未发现数据,是否现在导入数据？", new HintDialog.OnCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if (confirm) {
+                                dialog.dismiss();
+                                startActivity(new Intent(TestActivity.this, DataActivity.class));
+                            } else {
+                                dialog.dismiss();
+                            }
+                        }
+                    }).setBackgroundResource(R.drawable.img_base_icon_info).setNOVisibility(true).setLLButtonVisibility(true).setTitle("未导入数据").setPositiveButton("确定").show();
+                } else if (cc.size() == 0) {
+                    Intent intent = new Intent(this, SelectKcCcActivity.class);
+                    intent.putExtra("sfrz", "2");
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(this, RZJLActivity.class));
+                }
+                break;
             case R.id.linearlayout_sjgl:
                 startActivity(new Intent(this, DataActivity.class));
                 break;
@@ -230,7 +257,9 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
                     }).setBackgroundResource(R.drawable.img_base_icon_question).setNOVisibility(true).setLLButtonVisibility(true).setTitle("提示").setPositiveButton("是").setNegativeButton("否").show();
                 }
                 break;
-
+            case R.id.ll_test_jcsz:
+                startActivity(new Intent(this, SettingActivity.class));
+                break;
         }
     }
 
@@ -267,7 +296,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
             public Object callback() {
                 String kcno = DbServices.getInstance(getBaseContext()).loadAllkc().size() > 0 ? BuildConfig.VERSION_NAME + DbServices.getInstance(getBaseContext()).selectKC().get(0).getKc_no() : BuildConfig.VERSION_NAME;
                 LogUtil.i("所选的考场：", kcno);
-                client = new SocketClient(DbServices.getInstance(getBaseContext()).selectIP());
+                client = new SocketClient(DbServices.getInstance(getBaseContext()).loadAllSbSetting().get(0).getSb_ip());
                 Map<String, Object> messages = client.receiveUnLockMessage(getBaseContext(), BuildConfig.VERSION_NAME, kcno);
                 LogUtil.i(kcno + " | 获取到考点端消息：" + messages);
                 client.closeSocket();
@@ -315,7 +344,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
                 new Runnable() {
                     @Override
                     public void run() {
-                        SocketClient socketClient = new SocketClient(DbServices.getInstance(getBaseContext()).selectIP());
+                        SocketClient socketClient = new SocketClient(DbServices.getInstance(getBaseContext()).loadAllSbSetting().get(0).getSb_ip());
                         map = socketClient.sendString(getBaseContext(), ABLConfig.RZJG, rzjg.toString());
                         LogUtil.i("数据上报：uploadRzjg", map);
                     }
@@ -338,7 +367,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
                 new Runnable() {
                     @Override
                     public void run() {
-                        SocketClient socketClient = new SocketClient(DbServices.getInstance(getBaseContext()).selectIP());
+                        SocketClient socketClient = new SocketClient(DbServices.getInstance(getBaseContext()).loadAllSbSetting().get(0).getSb_ip());
                         receive = socketClient.receiveUnLockField(getBaseContext(), BuildConfig.VERSION_NAME, ABLConfig.DATAVERSION_APP_FILE, FileUtils.getSDCardPath(), ABLConfig.BUNDLE_KEY_DOWNLOAD_NAME, checkMessageHandler);
                     }
                 }.run();
@@ -360,7 +389,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
                 new Runnable() {
                     @Override
                     public void run() {
-                        SocketClient socketClient = new SocketClient(DbServices.getInstance(getBaseContext()).selectIP());
+                        SocketClient socketClient = new SocketClient(DbServices.getInstance(getBaseContext()).loadAllSbSetting().get(0).getSb_ip());
                         map = socketClient.sendFile(getBaseContext(), BuildConfig.VERSION_NAME, ABLConfig.RZJL, FileUtils.getAppSavePath() + "/" + rzjl.getRzjl_pith(), rzjl.toString());
                         LogUtil.i("数据上报：uploadRzjl", map);
                     }

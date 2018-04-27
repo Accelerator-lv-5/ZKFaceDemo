@@ -165,7 +165,6 @@
         android:background="#0000"
         android:orientation="horizontal">
 
-
         <LinearLayout
             android:id="@id/linearlayout_sfrz"
             android:layout_width="wrap_content"
@@ -184,6 +183,28 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="20dp"
                 android:text="身份认证"
+                android:textColor="#000000"
+                android:textSize="28.0sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@id/linearlayout_kwdj"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="90dip"
+                android:layout_height="90dip"
+                android:src="@drawable/img_home_rzjl" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:text="认证记录"
                 android:textColor="#000000"
                 android:textSize="28.0sp" />
         </LinearLayout>
@@ -243,6 +264,30 @@
                 android:textSize="@dimen/twentyFour_sp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@id/ll_test_jcsz"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="16dip">
+
+            <ImageView
+                android:layout_width="30.0dip"
+                android:layout_height="30.0dip"
+                android:background="@drawable/img_module_home_page_base_home_setting_kk" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingLeft="10.0dip"
+                android:text="基础设置"
+                android:textColor="#ff595757"
+                android:textSize="@dimen/twentyFour_sp" />
+        </LinearLayout>
 
     </LinearLayout>
 

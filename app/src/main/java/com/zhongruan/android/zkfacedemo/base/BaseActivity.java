@@ -23,6 +23,7 @@ import com.zhongruan.android.zkfacedemo.idcardengine.IDCardData;
 import com.zhongruan.android.zkfacedemo.utils.CommonUtil;
 import com.zhongruan.android.zkfacedemo.utils.FileUtils;
 import com.zhongruan.android.zkfacedemo.utils.LogUtil;
+import com.zhongruan.android.zkfacedemo.utils.Utils;
 import com.zkteco.android.biometric.ZKLiveFaceService;
 import com.zkteco.android.biometric.core.device.ParameterHelper;
 import com.zkteco.android.biometric.core.device.TransportType;
@@ -251,7 +252,11 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     public void setParameter() {
-        File file = new File(Environment.getExternalStorageDirectory(), FileUtils.getName("lic") );
+        if (Utils.stringIsEmpty(FileUtils.getName("lic"))) {
+            Toast.makeText(getApplicationContext(), "注册文件不存在，请联系技术人员" , Toast.LENGTH_SHORT).show();
+            return;
+        }
+        File file = new File(Environment.getExternalStorageDirectory(), FileUtils.getName("lic"));
         byte[] buffer = new byte[8192];
         int len = 0;
         try {
@@ -269,7 +274,6 @@ public abstract class BaseActivity extends FragmentActivity {
             Toast.makeText(getApplicationContext(), "设置参数失败" + retCode, Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
     private void getInit() {

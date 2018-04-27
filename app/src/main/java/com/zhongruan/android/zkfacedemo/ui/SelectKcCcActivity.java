@@ -33,7 +33,6 @@ import java.util.List;
 
 import rx.android.BuildConfig;
 
-
 /**
  * Created by Administrator on 2017/9/7.
  */
@@ -178,13 +177,12 @@ public class SelectKcCcActivity extends BaseActivity implements View.OnClickList
                     if (selectCcAdapter.getChosenCcList().size() > 0) {
                         MyApplication.getDaoInstant(getBaseContext()).getDatabase().execSQL("UPDATE " + Ks_ccDao.TABLENAME + " SET  cc_extract = 0");
                         MyApplication.getDaoInstant(getBaseContext()).getDatabase().execSQL("UPDATE " + Ks_ccDao.TABLENAME + " SET  cc_extract = 1 WHERE cc_no = " + cc.getCc_no());
-
                         if (DbServices.getInstance(getBaseContext()).selectKC().size() > 1) {
                             DbServices.getInstance(SelectKcCcActivity.this).deleteAllbkks();
-                            MyApplication.getDaoInstant(getBaseContext()).getDatabase().execSQL("INSERT INTO " + Bk_ksDao.TABLENAME + " (ks_ksno,ks_xm,ks_xb,ks_zjno,ks_zwh,ks_ccno,ks_ccmc,ks_kcno,ks_kcmc,ks_xp,isRZ) " + " select a.ksno,a.xm,a.xb,a.zjno,a.zw,a.ccno,a.ccmc,a.kcno,a.kcmc,b.xp_pic,'0' from " + Bk_ks_tempDao.TABLENAME + " as a," + Bk_ksxpDao.TABLENAME + " as b where (a.ccno = '" + cc.getCc_no() + "'AND a.zjno=b.zjno)");
+                            MyApplication.getDaoInstant(getBaseContext()).getDatabase().execSQL("INSERT INTO " + Bk_ksDao.TABLENAME + " (ks_ksno,ks_xm,ks_xb,ks_zjno,ks_zwh,ks_ccno,ks_ccmc,ks_kcno,ks_kcmc,ks_xp,isRZ,isTG) " + " select a.ksno,a.xm,a.xb,a.zjno,a.zw,a.ccno,a.ccmc,a.kcno,a.kcmc,b.xp_pic,'0','0' from " + Bk_ks_tempDao.TABLENAME + " as a," + Bk_ksxpDao.TABLENAME + " as b where (a.ccno = '" + cc.getCc_no() + "'AND a.zjno=b.zjno)");
                         } else {
                             if (DbServices.getInstance(getBaseContext()).queryBKKSList(DbServices.getInstance(getBaseContext()).selectKC().get(0).getKc_name(), cc.getCc_name()).size() == 0) {
-                                MyApplication.getDaoInstant(getBaseContext()).getDatabase().execSQL("INSERT INTO " + Bk_ksDao.TABLENAME + " (ks_ksno,ks_xm,ks_xb,ks_zjno,ks_zwh,ks_ccno,ks_ccmc,ks_kcno,ks_kcmc,ks_xp,isRZ) " + " select a.ksno,a.xm,a.xb,a.zjno,a.zw,a.ccno,a.ccmc,a.kcno,a.kcmc,b.xp_pic,'0' from " + Bk_ks_tempDao.TABLENAME + " as a," + Bk_ksxpDao.TABLENAME + " as b where  (a.kcno = '" + DbServices.getInstance(getBaseContext()).selectKC().get(0).getKc_no() + "' AND a.ccno = '" + cc.getCc_no() + "'AND a.zjno=b.zjno)");
+                                MyApplication.getDaoInstant(getBaseContext()).getDatabase().execSQL("INSERT INTO " + Bk_ksDao.TABLENAME + " (ks_ksno,ks_xm,ks_xb,ks_zjno,ks_zwh,ks_ccno,ks_ccmc,ks_kcno,ks_kcmc,ks_xp,isRZ,isTG) " + " select a.ksno,a.xm,a.xb,a.zjno,a.zw,a.ccno,a.ccmc,a.kcno,a.kcmc,b.xp_pic,'0','0' from " + Bk_ks_tempDao.TABLENAME + " as a," + Bk_ksxpDao.TABLENAME + " as b where  (a.kcno = '" + DbServices.getInstance(getBaseContext()).selectKC().get(0).getKc_no() + "' AND a.ccno = '" + cc.getCc_no() + "'AND a.zjno=b.zjno)");
                             }
                         }
                         ABLSynCallback.call(new ABLSynCallback.BackgroundCall() {
@@ -208,7 +206,13 @@ public class SelectKcCcActivity extends BaseActivity implements View.OnClickList
                                             public void onClick(Dialog dialog, boolean confirm) {
                                                 if (confirm) {
                                                     dialog.dismiss();
-                                                    startActivity(new Intent(SelectKcCcActivity.this, RZActivity.class));
+                                                    Intent getIntent = getIntent();
+                                                    String sfrz = getIntent.getStringExtra("sfrz");
+                                                    if (sfrz.equals("2")) {
+                                                        startActivity(new Intent(SelectKcCcActivity.this, RZJLActivity.class));
+                                                    } else {
+                                                        startActivity(new Intent(SelectKcCcActivity.this, RZActivity.class));
+                                                    }
                                                     finish();
                                                 }
                                             }
@@ -220,16 +224,18 @@ public class SelectKcCcActivity extends BaseActivity implements View.OnClickList
                                             public void onClick(Dialog dialog, boolean confirm) {
                                                 if (confirm) {
                                                     dialog.dismiss();
-                                                    startActivity(new Intent(SelectKcCcActivity.this, RZActivity.class));
+                                                    Intent getIntent = getIntent();
+                                                    String sfrz = getIntent.getStringExtra("sfrz");
+                                                    if (sfrz.equals("2")) {
+                                                        startActivity(new Intent(SelectKcCcActivity.this, RZJLActivity.class));
+                                                    } else {
+                                                        startActivity(new Intent(SelectKcCcActivity.this, RZActivity.class));
+                                                    }
                                                     finish();
                                                 }
                                             }
                                         }).setBackgroundResource(R.drawable.img_base_check).setNOVisibility(false).setLLButtonVisibility(true).setTitle("提示").setPositiveButton("知道了").show();
-
-
                                     }
-
-
                                 } else {
                                     ShowHintDialog(SelectKcCcActivity.this, "提取考生指纹失败，请重新选择场次", "提示", R.drawable.img_base_icon_error, "知道了", false);
                                 }

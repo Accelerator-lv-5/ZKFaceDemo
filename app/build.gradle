@@ -66,4 +66,5 @@ dependencies {
     implementation files('libs/zkandroididcardreader.jar')
     implementation files('libs/zkandroidfpsensor.jar')
     implementation files('libs/ZKLiveFaceService.jar')
+    implementation 'com.github.ganfra:material-spinner:1.1.1'
 }

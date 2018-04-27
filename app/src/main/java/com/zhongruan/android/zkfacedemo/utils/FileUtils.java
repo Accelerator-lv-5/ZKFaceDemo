@@ -403,7 +403,12 @@ public class FileUtils {
         File file = Environment.getExternalStorageDirectory();
         if (file != null) {
             File[] files = file.listFiles(new FileNameSelector(name));
-            return files[0].getName();
+
+            if (files.length > 0) {
+                return files[0].getName();
+            }else {
+                return "";
+            }
         }
         return "";
     }

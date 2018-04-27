@@ -40,11 +40,13 @@ public class Bk_ks implements Parcelable {
     private String ks_xp;
     @Property(nameInDb = "isRZ")
     private String isRZ;
+    @Property(nameInDb = "isTG")
+    private String isTG;
 
-    @Generated(hash = 1530620330)
+    @Generated(hash = 1683516587)
     public Bk_ks(Long ksid, String ks_ksno, String ks_xm, String ks_zjno,
             String ks_xb, String ks_ccno, String ks_ccmc, String ks_kcno,
-            String ks_kcmc, String ks_zwh, String ks_xp, String isRZ) {
+            String ks_kcmc, String ks_zwh, String ks_xp, String isRZ, String isTG) {
         this.ksid = ksid;
         this.ks_ksno = ks_ksno;
         this.ks_xm = ks_xm;
@@ -57,6 +59,7 @@ public class Bk_ks implements Parcelable {
         this.ks_zwh = ks_zwh;
         this.ks_xp = ks_xp;
         this.isRZ = isRZ;
+        this.isTG = isTG;
     }
 
     @Generated(hash = 1002290122)
@@ -206,5 +209,13 @@ public class Bk_ks implements Parcelable {
 
     public void setKs_ccmc(String ks_ccmc) {
         this.ks_ccmc = ks_ccmc;
+    }
+
+    public String getIsTG() {
+        return this.isTG;
+    }
+
+    public void setIsTG(String isTG) {
+        this.isTG = isTG;
     }
 }
