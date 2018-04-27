@@ -156,7 +156,9 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                 }
                 break;
             case R.id.ll_change_cc:
-                startActivity(new Intent(this, SelectKcCcActivity.class));
+                Intent intent = new Intent(this, SelectKcCcActivity.class);
+                intent.putExtra("sfrz", "1");
+                startActivity(intent);
                 finish();
                 break;
             case R.id.btn_photo:

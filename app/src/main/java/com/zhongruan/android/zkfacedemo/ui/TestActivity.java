@@ -174,14 +174,19 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
                         }
                     }).setBackgroundResource(R.drawable.img_base_icon_info).setNOVisibility(true).setLLButtonVisibility(true).setTitle("未导入数据").setPositiveButton("确定").show();
                 } else if (cc.size() == 0) {
-                    startActivity(new Intent(this, SelectKcCcActivity.class));
+
+                    Intent intent = new Intent(this, SelectKcCcActivity.class);
+                    intent.putExtra("sfrz", "1");
+                    startActivity(intent);
                 } else {
                     if (!DateUtil.isTime(DateUtil.dateToLong(DateUtil.getNowTime_Millisecond3()), DateUtil.dateToLong(cc.get(0).getCc_kssj()), DateUtil.dateToLong(cc.get(0).getCc_jssj()))) {
-                        new HintDialog2(this, R.style.dialog, "当前场次不在当前考试时间", "当前时间：" + DateUtil.getNowTimeChinese(), "所选场次：" + DateUtil.getChineseTime(DateUtil.getStringToDate(cc.get(0).getCc_kssj())) + "-" + DateUtil.getChineseTime(DateUtil.getStringToDate(cc.get(0).getCc_jssj())), new HintDialog2.OnCloseListener() {
+                        new HintDialog2(this, R.style.dialog, "当前场次不在当前考试时间", "当前时间：" + DateUtil.getNowTimeChinese(), "所选场次：" + DateUtil.getChineseTime(DateUtil.getStringToDate(cc.get(0).getCc_kssj())) + " - " + DateUtil.getChineseTime(DateUtil.getStringToDate(cc.get(0).getCc_jssj())), new HintDialog2.OnCloseListener() {
                             @Override
                             public void onClick(Dialog dialog, boolean confirm) {
                                 if (confirm) {
-                                    startActivity(new Intent(TestActivity.this, SelectKcCcActivity.class));
+                                    Intent intent = new Intent(TestActivity.this, SelectKcCcActivity.class);
+                                    intent.putExtra("sfrz", "1");
+                                    startActivity(intent);
                                     dialog.dismiss();
                                 } else {
                                     startActivity(new Intent(TestActivity.this, TimeActivity.class));
@@ -249,6 +254,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
                                 dialog.dismiss();
                                 Intent intent = new Intent(TestActivity.this, SelectKcCcActivity.class);
                                 intent.putExtra("kcmc", kcmc);
+                                intent.putExtra("sfrz", "1");
                                 startActivity(intent);
                             } else {
                                 dialog.dismiss();

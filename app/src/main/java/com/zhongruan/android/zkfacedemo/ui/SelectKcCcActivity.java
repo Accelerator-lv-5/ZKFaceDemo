@@ -48,6 +48,8 @@ public class SelectKcCcActivity extends BaseActivity implements View.OnClickList
     private Button mLlButtons;
     private Ks_cc cc;
     private Ks_kc kc;
+    private Intent getIntent;
+
 
     @Override
     public void setContentView() {
@@ -65,6 +67,7 @@ public class SelectKcCcActivity extends BaseActivity implements View.OnClickList
         ksKcList = new ArrayList<>();
         ksCcList = new ArrayList<>();
         MyApplication.getApplication().setShouldStopUploadingData(true);
+        getIntent = getIntent();
     }
 
     @Override
@@ -109,7 +112,6 @@ public class SelectKcCcActivity extends BaseActivity implements View.OnClickList
         ksKcList.addAll(DbServices.getInstance(SelectKcCcActivity.this).loadAllkc());
         selectCcAdapter = new SelectCcAdapter(SelectKcCcActivity.this, ksCcList);
         mGvContent.setAdapter(selectCcAdapter);
-        Intent getIntent = getIntent();
         if (Utils.stringIsEmpty(getIntent.getStringExtra("kcmc"))) {
             MyApplication.getDaoInstant(getBaseContext()).getDatabase().execSQL("UPDATE " + Ks_kcDao.TABLENAME + " SET  kc_extract = 1");
         } else {
@@ -161,7 +163,7 @@ public class SelectKcCcActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onClick(View view) {
                 if (!DateUtil.isTime(DateUtil.dateToLong(DateUtil.getNowTime_Millisecond3()), DateUtil.dateToLong(cc.getCc_kssj()), DateUtil.dateToLong(cc.getCc_jssj()))) {
-                    new HintDialog2(SelectKcCcActivity.this, R.style.dialog, "当前场次不在当前考试时间", "当前时间：" + DateUtil.getNowTimeChinese(), "所选场次：" + DateUtil.getChineseTime(DateUtil.getStringToDate(cc.getCc_kssj())) + "-" + DateUtil.getChineseTime(DateUtil.getStringToDate(cc.getCc_jssj())), new HintDialog2.OnCloseListener() {
+                    new HintDialog2(SelectKcCcActivity.this, R.style.dialog, "当前场次不在当前考试时间", "当前时间：" + DateUtil.getNowTimeChinese(), "所选场次：" + DateUtil.getChineseTime(DateUtil.getStringToDate(cc.getCc_kssj())) + " - " + DateUtil.getChineseTime(DateUtil.getStringToDate(cc.getCc_jssj())), new HintDialog2.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
                             if (confirm) {
@@ -206,9 +208,7 @@ public class SelectKcCcActivity extends BaseActivity implements View.OnClickList
                                             public void onClick(Dialog dialog, boolean confirm) {
                                                 if (confirm) {
                                                     dialog.dismiss();
-                                                    Intent getIntent = getIntent();
-                                                    String sfrz = getIntent.getStringExtra("sfrz");
-                                                    if (sfrz.equals("2")) {
+                                                    if (getIntent.getStringExtra("sfrz").equals("2")) {
                                                         startActivity(new Intent(SelectKcCcActivity.this, RZJLActivity.class));
                                                     } else {
                                                         startActivity(new Intent(SelectKcCcActivity.this, RZActivity.class));
@@ -224,9 +224,7 @@ public class SelectKcCcActivity extends BaseActivity implements View.OnClickList
                                             public void onClick(Dialog dialog, boolean confirm) {
                                                 if (confirm) {
                                                     dialog.dismiss();
-                                                    Intent getIntent = getIntent();
-                                                    String sfrz = getIntent.getStringExtra("sfrz");
-                                                    if (sfrz.equals("2")) {
+                                                    if (getIntent.getStringExtra("sfrz").equals("2")) {
                                                         startActivity(new Intent(SelectKcCcActivity.this, RZJLActivity.class));
                                                     } else {
                                                         startActivity(new Intent(SelectKcCcActivity.this, RZActivity.class));

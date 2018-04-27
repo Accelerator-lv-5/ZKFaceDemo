@@ -65,7 +65,7 @@ public class KsxxDialog extends Dialog implements View.OnClickListener {
         mKwdjKc = findViewById(R.id.kw_tvKsKc);
         mKwdjKsh = findViewById(R.id.kw_tvKsno);
         recyclerView = findViewById(R.id.myRecycle_listview);
-        rzjlAdapter = new RzjlAdapter(mContext, DbServices.getInstance(mContext).selectRZJL(bk_ks.getKs_ksno()));
+        rzjlAdapter = new RzjlAdapter(mContext, DbServices.getInstance(mContext).selectRZJL(bk_ks.getKs_ksno(), bk_ks.getKs_kcno(), DbServices.getInstance(mContext).selectKM(bk_ks.getKs_ccno())));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         //设置布局管理器

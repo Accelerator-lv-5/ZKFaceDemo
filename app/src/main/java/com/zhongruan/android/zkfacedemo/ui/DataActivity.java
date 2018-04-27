@@ -327,6 +327,7 @@ public class DataActivity extends BaseActivity implements View.OnClickListener {
                             if (ConfigApplication.getApplication().getKDConnectState()) {
                                 initMap();
                                 delFolder("DataTemp");
+                                showProgressDialog(DataActivity.this, "正在清空数据...", false, 100);
                                 ABLSynCallback.call(new ABLSynCallback.BackgroundCall() {
                                     public Object callback() {
                                         new Runnable() {
@@ -349,6 +350,7 @@ public class DataActivity extends BaseActivity implements View.OnClickListener {
                                 }, new ABLSynCallback.ForegroundCall() {
                                     public void callback(Object obj) {
                                         if ((int) obj == 1) {
+                                            dismissProgressDialog();
                                             MyApplication.getApplication().setShouldStopUploadingData(false);
                                             Message message1 = new Message();
                                             message1.what = 17;

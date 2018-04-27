@@ -46,7 +46,7 @@ public class RzjlAdapter extends RecyclerView.Adapter<RzjlAdapter.MyViewHolder> 
             holder.mListitemRzjlRzfs.setText("指纹比对");
             holder.mListitemRzjlResult.setText("比对通过");
         } else if (rzjlList.get(position).getRzjl_rzfsno().equals("8006")) {
-            holder.mListitemRzjlRzfs.setText("指纹比对");
+            holder.mListitemRzjlRzfs.setText("异常拍照");
             holder.mListitemRzjlResult.setText("比对不通过");
         } else if (rzjlList.get(position).getRzjl_rzfsno().equals("8007")) {
             holder.mListitemRzjlRzfs.setText("补充拍照");
