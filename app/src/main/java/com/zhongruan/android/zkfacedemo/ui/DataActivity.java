@@ -422,7 +422,6 @@ public class DataActivity extends BaseActivity implements View.OnClickListener {
                                                             ShowHintDialog(DataActivity.this, "认证数据导出成功", "U盘导出认证数据", R.drawable.img_base_check, "知道了", false);
                                                             ConfigApplication.getApplication().setUsbExportTime(DateUtil.getNowTime());
                                                             tv_rz_usb_dc.setText("最近导入：" + ConfigApplication.getApplication().getUsbExportTime());
-
                                                         } else {
                                                             ShowHintDialog(DataActivity.this, "认证数据导出失败", "U盘导出认证数据", R.drawable.img_base_icon_error, "知道了", false);
                                                         }
