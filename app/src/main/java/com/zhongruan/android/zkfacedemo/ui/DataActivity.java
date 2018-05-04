@@ -326,8 +326,8 @@ public class DataActivity extends BaseActivity implements View.OnClickListener {
                             dialog.dismiss();
                             if (ConfigApplication.getApplication().getKDConnectState()) {
                                 initMap();
-                                delFolder("DataTemp");
                                 showProgressDialog(DataActivity.this, "正在清空数据...", false, 100);
+                                delFolder("DataTemp");
                                 ABLSynCallback.call(new ABLSynCallback.BackgroundCall() {
                                     public Object callback() {
                                         new Runnable() {

@@ -58,7 +58,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
     private Handler handler = new Handler();
     private Bitmap bitmap, bit;
     private boolean isRzSucceed;
-    private String timeZP, kmno, kmmc, kcmc, kdno, ccmc, ccno;
+    private String kmno, kmmc, kcmc, kdno, ccmc, ccno;
     private int CS, photo = 0;
     private IDCardData idCardData;
     private Bk_ks bkKs;
@@ -349,9 +349,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        long nTickStart = System.currentTimeMillis();
         OpenCameraAndSetSurfaceviewSize(0);
-        LogUtil.i("时间：" + (System.currentTimeMillis() - nTickStart));
     }
 
     @Override
@@ -375,6 +373,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
         try {
             mCamera.setPreviewDisplay(holder);
             Camera.Parameters parameters = mCamera.getParameters();
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
             parameters.setPictureFormat(PixelFormat.JPEG);
             parameters.setPreviewFormat(ImageFormat.NV21);
             mCamera.setPreviewCallback(new _Preview());
@@ -441,7 +440,6 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                         public void onClick(Dialog dialog, boolean confirm) {
                             if (confirm) {
                                 ShowHintDialog(RZActivity.this, bkKs.getKs_xm() + " 验证完成", "提示", R.drawable.img_base_icon_correct, 800, false);
-                                timeZP = DateUtil.getNowTime();
                                 ABLSynCallback.call(new ABLSynCallback.BackgroundCall() {
                                     @Override
                                     public Object callback() {
