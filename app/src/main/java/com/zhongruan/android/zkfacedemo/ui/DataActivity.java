@@ -384,7 +384,6 @@ public class DataActivity extends BaseActivity implements View.OnClickListener {
                             if (Utils.checkUSBInserted()) {
                                 List<Sfrz_rzjl> listRzjl = DbServices.getInstance(DataActivity.this).loadAllrzjl();
                                 List<Sfrz_rzjg> listRzjg = DbServices.getInstance(DataActivity.this).loadAllrzjg();
-//                                List<Bk_ks_temp> bkKsTempList = DbServices.getInstance(DataActivity.this).selectDOWNBKKS(ConfigApplication.getApplication().getKCStr(), ConfigApplication.getApplication().getCCStr());
                                 if (listRzjl.size() > 0 && listRzjg.size() > 0) {
                                     showProgressDialog(DataActivity.this, "正在导出数据库数据...", false, 100);
                                     LogUtil.i("导出认证数据包到U盘", "正在导出数据库数据...");
@@ -396,9 +395,6 @@ public class DataActivity extends BaseActivity implements View.OnClickListener {
                                         for (int i = 0; i < listRzjg.size(); i++) {
                                             FileUtils.writeTxtToFile(listRzjg.get(i).toString(), getAppSavePath() + "/ExportData/" + DbServices.getInstance(DataActivity.this).loadAllkd().get(0).getKd_no() + "_" + DbServices.getInstance(DataActivity.this).loadAllkd().get(0).getKd_name() + "_/", "sfrz_rzjg.txt");
                                         }
-//                                        for (int i = 0; i < bkKsTempList.size(); i++) {
-//                                            FileUtils.writeTxtToFile(bkKsTempList.get(i).toString(), getAppSavePath() + "/ExportData/" + DbServices.getInstance(DataActivity.this).loadAllkd().get(0).getKd_no() + "_" + DbServices.getInstance(DataActivity.this).loadAllkd().get(0).getKd_name() + "_/", "bk_ks.txt");
-//                                        }
                                         if (FileUtils.copyFolder(getAppSavePath() + "/sfrz_rzjl/", getAppSavePath() + "/ExportData/" + DbServices.getInstance(DataActivity.this).loadAllkd().get(0).getKd_no() + "_" + DbServices.getInstance(DataActivity.this).loadAllkd().get(0).getKd_name() + "_/sfrz_rzjl/")) {
                                             File file1 = new File(getAppSavePath() + "/ExportData/" + DbServices.getInstance(DataActivity.this).loadAllkd().get(0).getKd_no() + "_" + DbServices.getInstance(DataActivity.this).loadAllkd().get(0).getKd_name() + "_/");
                                             zipFile = new File(getAppSavePath() + "/ExportData/" + DbServices.getInstance(DataActivity.this).loadAllkd().get(0).getKd_no() + "_" + DbServices.getInstance(DataActivity.this).loadAllkd().get(0).getKd_name() + "_" + DateUtil.getNowTime2());
