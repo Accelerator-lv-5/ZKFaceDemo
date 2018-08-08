@@ -114,7 +114,6 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void initListeners() {
-        llNowtime.setOnClickListener(this);
         llLocalip.setOnClickListener(this);
         llNetip.setOnClickListener(this);
         linearlayoutSfrz.setOnClickListener(this);
@@ -130,14 +129,13 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
         netipTv.setText(DbServices.getInstance(getBaseContext()).loadAllSbSetting().get(0).getSb_ip());
         startCheckMeesageFromKD();
         new Thread(runnable01).start();
-        handler.postDelayed(runnable02, 500);
+        handler.post(runnable02);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_nowtime:
-                startActivity(new Intent(this, TimeActivity.class));
                 break;
             case R.id.ll_localip:
                 startActivity(new Intent("android.settings.AIRPLANE_MODE_SETTINGS"));
@@ -433,7 +431,6 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
     @Override
     protected void onRestart() {

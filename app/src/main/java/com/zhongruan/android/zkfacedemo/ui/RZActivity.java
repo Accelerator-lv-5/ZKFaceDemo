@@ -12,7 +12,6 @@ import android.hardware.Camera;
 import android.media.ThumbnailUtils;
 import android.os.Handler;
 import android.os.Message;
-import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -30,8 +29,8 @@ import com.zhongruan.android.zkfacedemo.camera.FaceView;
 import com.zhongruan.android.zkfacedemo.camera.util.CamParaUtil;
 import com.zhongruan.android.zkfacedemo.db.DbServices;
 import com.zhongruan.android.zkfacedemo.db.entity.Bk_ks;
-import com.zhongruan.android.zkfacedemo.dialog.EditDialog;
 import com.zhongruan.android.zkfacedemo.dialog.FaceDialog;
+import com.zhongruan.android.zkfacedemo.dialog.SfzhEditDialog;
 import com.zhongruan.android.zkfacedemo.idcardengine.IDCardData;
 import com.zhongruan.android.zkfacedemo.utils.ABLSynCallback;
 import com.zhongruan.android.zkfacedemo.utils.DateUtil;
@@ -167,24 +166,24 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
             case R.id.tv_inputIdCard:
                 idCardData = null;
                 handler.removeCallbacks(runnable02); //停止刷新
-                new EditDialog(RZActivity.this, R.style.dialog, new EditDialog.OnEditInputFinishedListener() {
+                new SfzhEditDialog(RZActivity.this, R.style.dialog, new SfzhEditDialog.OnCloseListener() {
                     @Override
-                    public void editInputFinished(Dialog dialog, String password, boolean confirm) {
+                    public void onClick(Dialog dialog, boolean confirm, String Str) {
                         if (confirm) {
                             dialog.dismiss();
                             IDCard idCard = new IDCard();
-                            if (idCard.validate_effective(password.toLowerCase()).equals(password.toLowerCase())) {
+                            if (idCard.validate_effective(Str.toLowerCase()).equals(Str.toLowerCase())) {
                                 if (DbServices.getInstance(getBaseContext()).selectKC().size() > 1) {
-                                    bkKs = DbServices.getInstance(getBaseContext()).selectBKKSs(ccno, password);
+                                    bkKs = DbServices.getInstance(getBaseContext()).selectBKKSs(ccno, Str);
                                 } else {
-                                    bkKs = DbServices.getInstance(getBaseContext()).selectBKKS(kcmc, ccno, password);
+                                    bkKs = DbServices.getInstance(getBaseContext()).selectBKKS(kcmc, ccno, Str);
                                 }
                                 if (bkKs != null) {
                                     bit = FileUtils.getBitmapFromPath(FileUtils.getAppSavePath() + "/" + bkKs.getKs_xp());
                                     register_bitmap(bit);
                                     KsPZ();
                                 } else {
-                                    ShowToast("未查找到" + password + "，请重试");
+                                    ShowToast("未查找到" + Str + "，请重试");
                                     handler.postDelayed(runnable02, 100);// 间隔1秒
                                 }
                             } else {
@@ -196,7 +195,7 @@ public class RZActivity extends BaseActivity implements View.OnClickListener, Su
                             handler.postDelayed(runnable02, 100);
                         }
                     }
-                }).setTitle("请输入身份证号").setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS).show();
+                }).show();
                 break;
         }
     }

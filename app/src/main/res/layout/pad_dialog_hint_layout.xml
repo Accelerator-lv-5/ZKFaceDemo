@@ -24,7 +24,7 @@
             android:visibility="visible" />
 
         <View
-            android:id="@+id/titleLine"
+            android:id="@id/titleLine"
             android:layout_width="match_parent"
             android:layout_height="1.0px"
             android:background="@color/dialogTitleLine" />

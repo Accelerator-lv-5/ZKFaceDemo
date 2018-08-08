@@ -294,5 +294,10 @@
     <item name="rb1" type="id">false</item>
     <item name="rb2" type="id">false</item>
     <item name="rb3" type="id">false</item>
+    <item name="llDialog" type="id">false</item>
+    <item name="titleLine" type="id">false</item>
+    <item name="content" type="id">false</item>
+    <item name="tv_others" type="id">false</item>
+    <item name="niv_input" type="id">false</item>
 
 </resources>
